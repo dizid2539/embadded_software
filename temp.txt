@@ -1,0 +1,24 @@
+    #계속 달리다가 색상이 인식되면 정지
+    def color_rush(self):
+        self.gyro.set_mode('GYRO-ANG')
+        self.color.set_mode('COL-REFLECT')
+        standard_angle = self.gyro.get_value()
+        standard_wheel_angle = self.wheel.left_get_position()
+        while True:
+            error = (standard_angle - self.gyro.get_value()) * 10
+            self.wheel.left_run(speed + error)
+            self.wheel.right_run(speed - error)
+            middle_value = self.color.middle_get_value()
+            if middle_value < self.color.WHITEBLACK:
+                break
+        self.wheel.left_stop('hold')
+        self.wheel.right_stop('hold')
+        block = (2*math.pi*self.wheel.RADIUS*abs(self.wheel.left_get_position()-standard_wheel_angle)/360) / machine.field.BLOCK_LENGHT
+        target_x = self.location_x + math.cos(angle_to_radian(self.direction)) * block
+        target_y = self.location_y + math.sin(angle_to_radian(self.direction)) * block
+        if (target_x != round(target_x)) and (math.log10(abs(target_x - round(target_x))) < -3):
+            target_x = round(target_x)
+        if (target_y != round(target_y)) and (math.log10(abs(target_y - round(target_y))) < -3):
+            target_y = round(target_y)
+        self.location_x = target_x
+        self.location_y = target_y
