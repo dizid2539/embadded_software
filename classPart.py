@@ -117,7 +117,7 @@ class Passenger():
         self.roller.run_forever(speed_sp = speed)
     def roller_stop(self, stop_type):                          #돌림 모터 정지
         self.roller.stop(stop_action = stop_type)
-    def gate_get_position(self):                             #문 모터 각도 구하기
+    def gate_get_position(self):                              #문 모터 각도 구하기
         return self.gate.position
     def gate_run(self, speed):                                 #문 모터 작동
         self.gate.run_forever(speed_sp = speed)
